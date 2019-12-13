@@ -6,8 +6,9 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_we
 
 // Function to determine marker size based on earthquake magnitude
 function markerSize(feature) {
-  return Math.sqrt(Math.abs(feature.properties.mag)) * 5;  // Option 1
+  // return Math.sqrt(Math.abs(feature.properties.mag)) * 5;  // Option 1
   // return Math.pow(2, feature.properties.mag) / 2;  // Option 2
+  return Math.exp(feature.properties.mag/1.01-0.13) * 1000;  // Option 3
 }
 
 // Function to set colors based on the earthquake magnitude (purple/violet scheme)
