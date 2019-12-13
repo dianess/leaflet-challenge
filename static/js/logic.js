@@ -6,18 +6,18 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_we
 
 // Function to determine marker size based on earthquake magnitude
 function markerSize(feature) {
-  //return Math.sqrt(Math.abs(feature.properties.mag)) * 5;
-  return Math.pow(2, magnitude) / 2;
+  //return Math.sqrt(Math.abs(feature.properties.mag)) * 5;  // Option 1
+  return Math.pow(2, magnitude) / 2;  // Option 2
 }
 
-// Function to set colors based on the earthquake magnitude
+// Function to set colors based on the earthquake magnitude (purple/violet scheme)
 function getColor(d) {
-  return d > 9? '#FF0000' :
-        d > 8? '#FA8072' :
-        d > 7  ? '#eede9f' :
-        d > 6  ? '#FF8C00' :
-        d > 5   ? '#dfedbe' :
-                   '#7FFF00';
+  return d > 9? '#8C00FC' : // '#011E58' :  blue scheme doesn't show on ocean
+        d > 8?  '#9C14FC' : // '#0622B4' :
+        d > 7  ?  '#AF2EFA' : // '#0040E0' :
+        d > 6  ?  '#C74EF4' : // '#427CEC' :
+        d > 5   ?  '#DE6DF1' : // '#5F9EFF' :
+                    '#ED81EE'; // '#78B6FF';
  }
 
 // Perform a GET request to the query URL
