@@ -6,17 +6,17 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_we
 
 // Function to determine marker size based on earthquake magnitude
 function markerSize(feature) {
-  //return Math.sqrt(Math.abs(feature.properties.mag)) * 5;  // Option 1
-  return Math.pow(2, magnitude) / 2;  // Option 2
+  return Math.sqrt(Math.abs(feature.properties.mag)) * 5;  // Option 1
+  // return Math.pow(2, feature.properties.mag) / 2;  // Option 2
 }
 
 // Function to set colors based on the earthquake magnitude (purple/violet scheme)
 function getColor(d) {
-  return d > 9? '#8C00FC' : // '#011E58' :  blue scheme doesn't show on ocean
-        d > 8?  '#9C14FC' : // '#0622B4' :
-        d > 7  ?  '#AF2EFA' : // '#0040E0' :
-        d > 6  ?  '#C74EF4' : // '#427CEC' :
-        d > 5   ?  '#DE6DF1' : // '#5F9EFF' :
+  return d > 5.5 ? '#8C00FC' : // '#011E58' :  blue scheme doesn't show on ocean
+        d > 5.3 ?  '#9C14FC' : // '#0622B4' :
+        d > 5.1  ?  '#AF2EFA' : // '#0040E0' :
+        d > 4.9  ?  '#C74EF4' : // '#427CEC' :
+        d > 4.7   ?  '#DE6DF1' : // '#5F9EFF' :
                     '#ED81EE'; // '#78B6FF';
  }
 
@@ -109,4 +109,34 @@ function createMap(earthquakes) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(myMap);
+
+  // Set up the legend
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+    var magRange = [4, 5, 6, 7, 8, 9];
+    var labels = [];
+    var legendInfo = "<h5>Earthquake Magnitude</h5>";
+
+    // Loop through the density intervals and generate a label 
+    // with a colored square for each interval
+    for (var i = 0; i < magRange.length; i++) {
+      div.innerHTML += 
+          '<i style="background:' + getColor(magRange[i]+0.01 ) + '"></i> ' +
+          magRange[i] + (magRange[i + 1] ? '&ndash;' + magRange[i + 1] + '<br>' : '+');
+    } // ends for loop
+
+    return div;
+
+    // magRange.forEach(function(magRange, i) {
+    //   labels.push("<li style=\"background-color: " + colors[i] + "\"></li>");
+    // }); // ends magRange.forEach
+
+    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+    return div;
+  };  // ends legend.onAdd
+
+
+legend.addTo(myMap);
+                        
 };  //ends function createMap
