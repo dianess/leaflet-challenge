@@ -4,13 +4,6 @@
 
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson"
 
-// Function to determine marker size based on earthquake magnitude
-function markerSize(feature) {
-  // return Math.sqrt(Math.abs(feature.properties.mag)) * 5;  // Option 1
-  // return Math.pow(2, feature.properties.mag) / 2;  // Option 2
-  return Math.exp(feature.properties.mag/1.01-0.13) * 1000;  // Option 3
-}
-
 // Function to set colors based on the earthquake magnitude (purple/violet scheme)
 function getColor(d) {
   return d > 5.5 ? '#8C00FC' : // '#011E58' :  blue scheme doesn't show on ocean
@@ -40,9 +33,11 @@ function createFeatures(earthquakeData) {
   // from the function above: getColor
   function style(feature) {
     var mag = feature.properties.mag; 
-    var color_value=getColor(mag)
+    var color_value = getColor(mag)
   
-    return {radius: feature.properties.mag*2,
+    // The calculation for radius determines the size of the circle based on magnitude.
+    return {radius: Math.pow(2, feature.properties.mag) / 2,  // bigger differencs in circle size for visibility
+    // return {radius: Math.sqrt(Math.abs(feature.properties.mag)) * 5, // Option 2 - not as obvious (might work for range of 1-10 mags)
       color: "#000",
       fillColor:color_value,
       fillOpacity: 0.8,
@@ -127,13 +122,14 @@ function createMap(earthquakes) {
           magRange[i] + (magRange[i + 1] ? '&ndash;' + magRange[i + 1] + '<br>' : '+');
     } // ends for loop
 
+    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
     return div;
 
     // magRange.forEach(function(magRange, i) {
     //   labels.push("<li style=\"background-color: " + colors[i] + "\"></li>");
     // }); // ends magRange.forEach
 
-    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+    // div.innerHTML += "<ul>" + labels.join("") + "</ul>"; //from homework but doesnt' change anything
     return div;
   };  // ends legend.onAdd
 
