@@ -6,9 +6,9 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_we
 function getColor(d) {
   return d > 5.5 ? '#8C00FC' : // '#011E58' :  blue scheme doesn't show on ocean
         d > 5.3 ?  '#9C14FC' : // '#0622B4' :
-        d > 5.1  ?  '#AF2EFA' : // '#0040E0' :
-        d > 4.9  ?  '#C74EF4' : // '#427CEC' :
-        d > 4.7   ?  '#DE6DF1' : // '#5F9EFF' :
+        d > 5.1 ?  '#AF2EFA' : // '#0040E0' :
+        d > 4.9 ?  '#C74EF4' : // '#427CEC' :
+        d > 4.7 ?  '#DE6DF1' : // '#5F9EFF' :
                     '#ED81EE'; // '#78B6FF';
  }
 
