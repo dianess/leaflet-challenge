@@ -116,21 +116,23 @@ function createMap(earthquakes) {
 
     // Loop through the density intervals and generate a label 
     // with a colored square for each interval
-    for (var i = 0; i < magRange.length; i++) {
+    for (var i = 0; i < magRange.length; i++) {   // this loop provides the #'s but not colors
       div.innerHTML += 
-          '<i style="background:' + getColor(magRange[i]+0.01 ) + '"></i> ' +
+          '<i style="background:' + getColor(magRange[i]) + '"></i> ' +
           magRange[i] + (magRange[i + 1] ? '&ndash;' + magRange[i + 1] + '<br>' : '+');
     } // ends for loop
 
-    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-    return div;
-
+       // From homework - this doesn't provide colors and deletes numbers from loop above
     // magRange.forEach(function(magRange, i) {
     //   labels.push("<li style=\"background-color: " + colors[i] + "\"></li>");
     // }); // ends magRange.forEach
 
-    // div.innerHTML += "<ul>" + labels.join("") + "</ul>"; //from homework but doesnt' change anything
+    div.innerHTML += "<ul>" + labels.join("") + "</ul>";  //from homework but not working
     return div;
+
+
+    // div.innerHTML += "<ul>" + labels.join("") + "</ul>"; //from homework but doesnt' change anything
+    //return div;
   };  // ends legend.onAdd
 
 
