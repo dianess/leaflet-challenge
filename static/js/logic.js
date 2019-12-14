@@ -1,7 +1,5 @@
-// Store our API endpoint inside queryUrl
-// var queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2019-01-01&endtime=" +
-//   "2019-01-02&maxlongitude=-69.52148437&minlongitude=-123.83789062&maxlatitude=48.74894534&minlatitude=25.16517337";
-
+// Store API endpoint inside queryUrl
+// Using data for the last week and earthquakes with a magnitude of 4.5 & higher
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson"
 
 // Function to set colors based on the earthquake magnitude (purple/violet scheme)
@@ -22,8 +20,8 @@ d3.json(queryUrl, function(data) {
 
 function createFeatures(earthquakeData) {
 
-  // Define a function we want to run once for each feature in the features array
-  // Give each feature a popup describing the magniture, place, and time of the earthquake
+  // Define a function to run once for each feature in the features array
+  // Give each feature a pop-up box describing the magnitude, place, and time of the earthquake
   function onEachFeature(feature, layer) {
     layer.bindPopup('<div align="center">' + "<h3>" + "Magnitude: "  + feature.properties.mag + "<p>" + feature.properties.place + "</p>" +
       "</h3><hr><p>" + new Date(feature.properties.time) + "</p></div>");
@@ -35,8 +33,8 @@ function createFeatures(earthquakeData) {
     var mag = feature.properties.mag; 
     var color_value = getColor(mag)
   
-    // The calculation for radius determines the size of the circle based on magnitude.
-    return {radius: Math.pow(2, feature.properties.mag) / 2,  // bigger differences in circle size for visibility
+    // The calculation for radius determines the size of the circle based on the magnitude
+    return {radius: Math.pow(2, feature.properties.mag) / 2,  // bigger differences in circle size for visibility because my range of mags is small
     // return {radius: Math.sqrt(Math.abs(feature.properties.mag)) * 5, // Option 2 - not as obvious (might work for range of 1-10 mags)
       color: "#000",
       fillColor:color_value,
@@ -86,7 +84,8 @@ function createMap(earthquakes) {
   };
 
   // // Attempt to Add tectonic plates
-  // var tectonicPlatesData = "data/PB2002_plates.json";
+  var tectonicPlatesData = "data/PB2002_plates.json";
+  console.log(tectonicPlatesData);
   // d3.json(tectonicPlatesData,function(data) {
   //   var myStyle = {
   //   "color": "#ff7800",
@@ -100,7 +99,7 @@ function createMap(earthquakes) {
   // Create overlay object to hold our overlay layers
   var overlayMaps = {
     Earthquakes: earthquakes,
-    // 'Tectonic Plates': tectonicPlates
+    //"Tectonic Plates": tectonicPlates
   };
 
   // Create our map, giving it the streetmap and earthquakes layers to display on load
@@ -128,9 +127,8 @@ function createMap(earthquakes) {
     var magRange = [4.5, 4.7, 4.9, 5.1, 5.3, 5.5];
     var labels = ['<strong> Earthquake Magnitude </strong>'];
  
-    // Loop through the density intervals and generate a label 
-    // with a colored square for each interval
-
+    // Loop through the intervals and generate a label 
+    // with a colored circle for each interval
     for (var i = 0; i < magRange.length; i++) {
      labels.push(
       '<i class="circle" style="background:' + getColor(magRange[i]) + '"></i> ' +
@@ -140,7 +138,6 @@ function createMap(earthquakes) {
       return div;
 
   };  // ends legend.onAdd
-
 
 legend.addTo(myMap);
                         
