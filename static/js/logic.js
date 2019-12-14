@@ -60,31 +60,34 @@ function createFeatures(earthquakeData) {
   createMap(earthquakes);
 
 // Tectonic Plates Section  ****  
-  // // Add tectonic plates (i.e. fault lines)
-  // var tectonicPlatesPath = "data/PB2002_boundaries.json";
-  // d3.json(tectonicPlatesPath,function(platesData) {
-  //   console.log(platesData);
+  // Add tectonic plates (i.e. fault lines)
+  var tectonicPlatesPath = "data/PB2002_boundaries.json";
+  d3.json(tectonicPlatesPath,function(platesData) {
+    console.log(platesData);
+    var lines = platesData.features[0].properties;  //not sure what level I need to print lines
+    //var lines = platesData.features[0].properties.LAYER;   //console.log prints "plate boundary"
+    console.log(lines);
   
-  //   // Create tectonic plates style
-  //     var platesStyle = {
-  //     "color": "white",
-  //     "weight": 2,
-  //     "opacity": 1,
-  //     fillOpacity: 0,
-  //     }; //ends platesStyle
+    // Create tectonic plates style
+      var platesStyle = {
+      "color": "white",
+      "weight": 2,
+      "opacity": 1,
+      fillOpacity: 0,
+      }; //ends platesStyle
 
-  //     var plates = L.geoJSON(platesData, {  //console error "plates is not defined"
-  //       style: platesStyle
-  //     }); //ends plates
+      var plates = L.geoJSON(lines, {  //previous console error "plates is not defined", not getting this far in my new attempt
+        style: platesStyle
+      }); //ends plates
 
-  // //   var myStyle = {
-  // //   "color": "#ff7800",
-  // //   "weight": 3,
-  // //   "opacity": 0.65,
-  // //   tectonicPlates=L.geoJson(data,{style: myStyle}),
-  // //   return tectonicPlates;
-  // //   };
-  // });  // ends d3.json
+  //   var myStyle = {
+  //   "color": "#ff7800",
+  //   "weight": 3,
+  //   "opacity": 0.65,
+  //   tectonicPlates=L.geoJson(data,{style: myStyle}),
+  //   return tectonicPlates;
+  //   };
+  });  // ends d3.json
 //  Ends Tectonic Plates Section ****
 
 } //ends function createFeatures
