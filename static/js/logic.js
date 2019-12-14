@@ -110,7 +110,7 @@ function createMap(earthquakes) {
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
-    var magRange = [4, 5, 6, 7, 8, 9];
+    var magRange = [4.5, 4.7, 4.9, 5.1, 5.3, 5.5];
     var labels = [];
     var legendInfo = "<h5>Earthquake Magnitude</h5>";
 
