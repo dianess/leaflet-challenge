@@ -108,31 +108,24 @@ function createMap(earthquakes) {
 
   // Set up the legend
   var legend = L.control({ position: "bottomright" });
-  legend.onAdd = function() {
+
+  // Add information to the legend
+  legend.onAdd = function(myMap) {
     var div = L.DomUtil.create("div", "info legend");
     var magRange = [4.5, 4.7, 4.9, 5.1, 5.3, 5.5];
-    var labels = [];
-    var legendInfo = "<h5>Earthquake Magnitude</h5>";
-
+    var labels = ['<strong> Earthquake Magnitude </strong>'];
+ 
     // Loop through the density intervals and generate a label 
     // with a colored square for each interval
-    for (var i = 0; i < magRange.length; i++) {   // this loop provides the #'s but not colors
-      div.innerHTML += 
-          '<i style="background:' + getColor(magRange[i]) + '"></i> ' +
-          magRange[i] + (magRange[i + 1] ? '&ndash;' + magRange[i + 1] + '<br>' : '+');
-    } // ends for loop
 
-       // From homework - this doesn't provide colors and deletes numbers from loop above
-    // magRange.forEach(function(magRange, i) {
-    //   labels.push("<li style=\"background-color: " + colors[i] + "\"></li>");
-    // }); // ends magRange.forEach
+    for (var i = 0; i < magRange.length; i++) {
+     labels.push(
+      '<i class="circle" style="background:' + getColor(magRange[i]) + '"></i> ' +
+      magRange[i] + (magRange[i+1] ? '&ndash;' + magRange[i+1] : '+'));
+      }
+      div.innerHTML = labels.join('<br>');
+      return div;
 
-    div.innerHTML += "<ul>" + labels.join("") + "</ul>";  //from homework but not working
-    return div;
-
-
-    // div.innerHTML += "<ul>" + labels.join("") + "</ul>"; //from homework but doesnt' change anything
-    //return div;
   };  // ends legend.onAdd
 
 

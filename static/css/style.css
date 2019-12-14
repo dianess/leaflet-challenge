@@ -9,3 +9,10 @@ html {
   height: 100%;
 }
 
+/* To make the legend colors show as circles */ 
+.legend .circle {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: 8px;
+}
