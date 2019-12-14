@@ -85,9 +85,22 @@ function createMap(earthquakes) {
     "Dark Map": darkmap
   };
 
-  // Create overlay object to hold our overlay layer
+  // // Attempt to Add tectonic plates
+  // var tectonicPlatesData = "data/PB2002_plates.json";
+  // d3.json(tectonicPlatesData,function(data) {
+  //   var myStyle = {
+  //   "color": "#ff7800",
+  //   "weight": 3,
+  //   "opacity": 0.65,
+  //   tectonicPlates=L.geoJson(data,{style: myStyle}),
+  //   return tectonicPlates;
+  //   };
+  // });
+  
+  // Create overlay object to hold our overlay layers
   var overlayMaps = {
-    Earthquakes: earthquakes
+    Earthquakes: earthquakes,
+    // 'Tectonic Plates': tectonicPlates
   };
 
   // Create our map, giving it the streetmap and earthquakes layers to display on load
