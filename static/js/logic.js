@@ -41,7 +41,7 @@ function createFeatures(earthquakeData) {
       fillOpacity: 0.8,
       weight: 1,
       opacity: 0}
-    }
+    }  //ends function "style"
   
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
@@ -58,19 +58,48 @@ function createFeatures(earthquakeData) {
 
   // Sending our earthquakes layer to the createMap function
   createMap(earthquakes);
+
+// Tectonic Plates Section  ****  
+  // // Add tectonic plates (i.e. fault lines)
+  // var tectonicPlatesPath = "data/PB2002_boundaries.json";
+  // d3.json(tectonicPlatesPath,function(platesData) {
+  //   console.log(platesData);
+  
+  //   // Create tectonic plates style
+  //     var platesStyle = {
+  //     "color": "white",
+  //     "weight": 2,
+  //     "opacity": 1,
+  //     fillOpacity: 0,
+  //     }; //ends platesStyle
+
+  //     var plates = L.geoJSON(platesData, {  //console error "plates is not defined"
+  //       style: platesStyle
+  //     }); //ends plates
+
+  // //   var myStyle = {
+  // //   "color": "#ff7800",
+  // //   "weight": 3,
+  // //   "opacity": 0.65,
+  // //   tectonicPlates=L.geoJson(data,{style: myStyle}),
+  // //   return tectonicPlates;
+  // //   };
+  // });  // ends d3.json
+//  Ends Tectonic Plates Section ****
+
 } //ends function createFeatures
 
 function createMap(earthquakes) {
 
-  // Define streetmap and darkmap layers
-  var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+  // Define streetmap, darkmap, and satellitemap layers
+  var streetMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
     id: "mapbox.streets",
     accessToken: API_KEY
   });
 
-  var darkmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+  var darkMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
     id: "mapbox.dark",
@@ -86,28 +115,15 @@ function createMap(earthquakes) {
 
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
-    "Street Map": streetmap,
-    "Dark Map": darkmap,
+    "Street Map": streetMap,
+    "Dark Map": darkMap,
     "Satellite Map": satelliteMap
   };
-
-  // // Attempt to Add tectonic plates
-  var tectonicPlatesData = "data/PB2002_plates.json";
-  console.log(tectonicPlatesData);
-  // d3.json(tectonicPlatesData,function(data) {
-  //   var myStyle = {
-  //   "color": "#ff7800",
-  //   "weight": 3,
-  //   "opacity": 0.65,
-  //   tectonicPlates=L.geoJson(data,{style: myStyle}),
-  //   return tectonicPlates;
-  //   };
-  // });
   
   // Create overlay object to hold our overlay layers
   var overlayMaps = {
     Earthquakes: earthquakes,
-    //"Tectonic Plates": tectonicPlates
+    //"Tectonic Plates": plates
   };
 
   // Create our map, giving it the streetmap and earthquakes layers to display on load
@@ -116,7 +132,7 @@ function createMap(earthquakes) {
         1.2921, 36.8219   // Nairobi, Kenya
     ],
     zoom: 2,  // to view most of the world
-    layers: [streetmap, earthquakes]
+    layers: [streetMap, earthquakes]
   });
 
   // Create a layer control
