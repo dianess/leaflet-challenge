@@ -36,7 +36,7 @@ function createFeatures(earthquakeData) {
     var color_value = getColor(mag)
   
     // The calculation for radius determines the size of the circle based on magnitude.
-    return {radius: Math.pow(2, feature.properties.mag) / 2,  // bigger differencs in circle size for visibility
+    return {radius: Math.pow(2, feature.properties.mag) / 2,  // bigger differences in circle size for visibility
     // return {radius: Math.sqrt(Math.abs(feature.properties.mag)) * 5, // Option 2 - not as obvious (might work for range of 1-10 mags)
       color: "#000",
       fillColor:color_value,
@@ -50,11 +50,11 @@ function createFeatures(earthquakeData) {
   var earthquakes = L.geoJSON(earthquakeData, {
     onEachFeature: onEachFeature,
 
-    // Works with the function style and to change the default markers to circles
+    // Works with the function style above and to change the default markers to circles
     // with specific colors
     pointToLayer: function (feature, latlng) {
       return L.circleMarker(latlng, style(feature));
-    },
+    },  // ends pointToLayer
 
   });  //ends var earthquakes
 
@@ -135,7 +135,7 @@ function createMap(earthquakes) {
      labels.push(
       '<i class="circle" style="background:' + getColor(magRange[i]) + '"></i> ' +
       magRange[i] + (magRange[i+1] ? '&ndash;' + magRange[i+1] : '+'));
-      }
+      }  //ends for loop
       div.innerHTML = labels.join('<br>');
       return div;
 
