@@ -64,30 +64,28 @@ function createFeatures(earthquakeData) {
   var tectonicPlatesPath = "data/PB2002_boundaries.json";
   d3.json(tectonicPlatesPath,function(platesData) {
     console.log(platesData);
-    var lines = platesData.features[0].properties;  //not sure what level I need to print lines
-    //var lines = platesData.features[0].properties.LAYER;   //console.log prints "plate boundary"
+    var lines = platesData.features[0].geometry.coordinates;  //not sure what level I need to print lines
     console.log(lines);
-  
-    // Create tectonic plates style
-      var platesStyle = {
-      "color": "white",
-      "weight": 2,
-      "opacity": 1,
-      fillOpacity: 0,
-      }; //ends platesStyle
 
-      var plates = L.geoJSON(lines, {  //previous console error "plates is not defined", not getting this far in my new attempt
-        style: platesStyle
-      }); //ends plates
+    var myLines = [{
+      "type": "LineString",
+      "coordinates": lines
+  }];
 
-  //   var myStyle = {
-  //   "color": "#ff7800",
-  //   "weight": 3,
-  //   "opacity": 0.65,
-  //   tectonicPlates=L.geoJson(data,{style: myStyle}),
-  //   return tectonicPlates;
-  //   };
+    var myStyle = {
+      "color": "#ff7800",
+      "weight": 5,
+      "opacity": 0.65,
+    };   //ends variable myStyle
+
+    const tectonicPlates = L.geoJson(myLines,{
+      style: myStyle,
+    }); //ends tectonicPlates
+    console.log(tectonicPlates);
   });  // ends d3.json
+
+  // Sending our tectonic plates layer to the createMap function
+  createMap(tectonicPlates);
 //  Ends Tectonic Plates Section ****
 
 } //ends function createFeatures
@@ -126,7 +124,7 @@ function createMap(earthquakes) {
   // Create overlay object to hold our overlay layers
   var overlayMaps = {
     Earthquakes: earthquakes,
-    //"Tectonic Plates": plates
+    "Tectonic Plates": tectonicPlates
   };
 
   // Create our map, giving it the streetmap and earthquakes layers to display on load
@@ -167,5 +165,6 @@ function createMap(earthquakes) {
   };  // ends legend.onAdd
 
 legend.addTo(myMap);
+//tectonicPlates.addTo(myMap);
                         
 };  //ends function createMap
