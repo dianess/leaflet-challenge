@@ -12,6 +12,9 @@ function getColor(d) {
                     '#ED81EE'; // '#78B6FF';
  }
 
+ // Make tectonicPlates a new layer group
+ var tectonicPlates = new L.LayerGroup();
+
 // Perform a GET request to the query URL
 d3.json(queryUrl, function(data) {
   // Once we get a response, send the data.features object to the createFeatures function
@@ -34,8 +37,8 @@ function createFeatures(earthquakeData) {
     var color_value = getColor(mag)
   
     // The calculation for radius determines the size of the circle based on the magnitude
-    return {radius: Math.pow(2, feature.properties.mag) / 2,  // bigger differences in circle size for visibility because my range of mags is small
-    // return {radius: Math.sqrt(Math.abs(feature.properties.mag)) * 5, // Option 2 - not as obvious (might work for range of 1-10 mags)
+    return {radius: Math.pow(2, feature.properties.mag) / 2,  // see README for where I found this function
+    // return {radius: Math.sqrt(Math.abs(feature.properties.mag)) * 5, // Option 2 
       color: "#000",
       fillColor:color_value,
       fillOpacity: 0.8,
@@ -61,38 +64,22 @@ function createFeatures(earthquakeData) {
 
 // Tectonic Plates Section  ****  
   // Add tectonic plates (i.e. fault lines)
+  
   var tectonicPlatesPath = "data/PB2002_boundaries.json";
   d3.json(tectonicPlatesPath,function(platesData) {
-    console.log(platesData);
-    var lines = platesData.features[0].geometry.coordinates;
-    console.log(lines);
+    L.geoJson(platesData,{
+      color: "white"
+      }
+    ).addTo(tectonicPlates);
 
-    var myLines = [{
-      "type": "LineString",
-      "coordinates": lines
-  }];
-
-    var myStyle = {
-      "color": "#ff7800",
-      "weight": 5,
-      "opacity": 0.65,
-    };   //ends variable myStyle
-
-    const tectonicPlates = L.geoJson(myLines,{
-      style: myStyle,
-    }); //ends tectonicPlates
-    console.log(tectonicPlates);
   });  // ends d3.json
-
-  // Sending our tectonic plates layer to the createMap function
-  createMap(tectonicPlates);
-//  Ends Tectonic Plates Section ****
-
+  //  Ends Tectonic Plates Section ****
 } //ends function createFeatures
 
 function createMap(earthquakes) {
 
   // Define streetmap, darkmap, and satellitemap layers
+
   var streetMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
@@ -124,10 +111,10 @@ function createMap(earthquakes) {
   // Create overlay object to hold our overlay layers
   var overlayMaps = {
     Earthquakes: earthquakes,
-    //"Tectonic Plates": tectonicPlates
+    "Tectonic Plates": tectonicPlates
   };
 
-  // Create our map, giving it the streetmap and earthquakes layers to display on load
+  // Create our map, giving it the streetmap and overlay layers to display on load
   var myMap = L.map("map", {
     center: [
         1.2921, 36.8219   // Nairobi, Kenya
@@ -165,6 +152,6 @@ function createMap(earthquakes) {
   };  // ends legend.onAdd
 
 legend.addTo(myMap);
-//tectonicPlates.addTo(myMap);
+tectonicPlates.addTo(myMap);
                         
 };  //ends function createMap
