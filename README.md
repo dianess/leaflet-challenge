@@ -10,3 +10,4 @@ Notes: Web page to find color schemes: https://www.schemecolor.com/
        Web page to find code for legend: https://leafletjs.com/examples/choropleth/
        Web page where I found calculation for circles based on magnitude:
             https://developers.google.com/maps/documentation/javascript/earthquakes
+       Web page for help with tectonic plates: https://leafletjs.com/examples/geojson/     

@@ -64,7 +64,7 @@ function createFeatures(earthquakeData) {
   var tectonicPlatesPath = "data/PB2002_boundaries.json";
   d3.json(tectonicPlatesPath,function(platesData) {
     console.log(platesData);
-    var lines = platesData.features[0].geometry.coordinates;  //not sure what level I need to print lines
+    var lines = platesData.features[0].geometry.coordinates;
     console.log(lines);
 
     var myLines = [{
@@ -124,7 +124,7 @@ function createMap(earthquakes) {
   // Create overlay object to hold our overlay layers
   var overlayMaps = {
     Earthquakes: earthquakes,
-    "Tectonic Plates": tectonicPlates
+    //"Tectonic Plates": tectonicPlates
   };
 
   // Create our map, giving it the streetmap and earthquakes layers to display on load
